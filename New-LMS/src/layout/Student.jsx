@@ -1,13 +1,15 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
+import React from "react";
+
+import { Outlet } from "react-router-dom";
+import SidebarWithBurgerMenu from "../components/Student/StudentNavbar";
 
 const Student = () => {
   return (
     <>
-    <Navbar/>
-      hello student
+      <SidebarWithBurgerMenu />
+      <Outlet />
     </>
-  )
-}
+  );
+};
 
-export default Student
+export default Student;

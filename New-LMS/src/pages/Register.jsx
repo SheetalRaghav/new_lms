@@ -1,14 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import toast, { Toaster } from 'react-hot-toast';
 const Register = () => {
   const navigate = useNavigate();
   const [render, setRender] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      axios 
+      axios
         .post(
           "http://localhost:5000/auth/getuser",
           {},
@@ -21,9 +21,9 @@ const Register = () => {
         .then((value) => {
           if (value.data.value.role === "Admin") {
             setRender(true);
-    
+
           }
-          else{
+          else {
             navigate('/')
           }
         })
@@ -46,11 +46,16 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post("http://localhost:5000/auth/newuser", register).then((value) => {
-      setRegister({ email: "", password: "", name: "" });
+      toast.success('User created!')
+      setRegister({ email: "", password: "", name: "",role:'Admin' });
     });
   };
   return (
     <>
+      <Toaster
+        position="bottom-center"
+        reverseOrder={false}
+      />
       <div className="relative flex flex-col justify-center h-screen overflow-hidden gap-5 lg:px-10 sm:px-6 px-4">
         <div className="flex gap-6 justify-center items-center w-full mt-10">
           <button

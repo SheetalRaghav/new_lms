@@ -58,10 +58,15 @@ router.post("/login", async (req, res) => {
           .status(400)
           .json({ success, Error: "please try to login with correct credentials 2" });
       } else {
+     if(!value.blocked){
         success = true;
         const userId = value.id;
         const authToken = jwt.sign(userId, secretKey);
-        res.json({ success, authToken, blocked:value.blocked });
+        res.json({ success, authToken, blocked: value.blocked });}
+        else{
+        res.status(400).json({ success:false, blocked: value.blocked })
+          
+        }
       }
     });
   } catch (error) {
@@ -86,14 +91,29 @@ router.post("/getuser", fetchUser, async (req, res) => {
   }
 });
 // ROUTE 3 fetchallusers
-router.get("/fetchallusers",fetchUser,async (req,res)=>{
+router.post("/fetchallusers", fetchUser, async (req, res) => {
   let success = false;
   try {
     const id = req.id;
-    await User.findOne({ _id: id }).then(async (value)=>{
-  if(value){
-    await User.find({}).select('-password').then((value)=>{res.status(200).json({value})})
+    await User.findOne({ _id: id }).then(async (value) => {
+      if (value) {
+        await User.find({}).select('-password').then((value) => { res.status(200).json({ value }) })
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ success, Error: "Internal server error" });
   }
+})
+router.post("/blockuser", fetchUser, async (req, res) => {
+  let success = false;
+  try {
+    const id = req.id;
+    await User.findOne({ _id: id }).then(async (value) => {
+      if (value) {
+        await User.findOneAndUpdate({ _id: req.body.identity }, { blocked: req.body.result }).then((response) => {
+          res.status(200).json({response})
+        })
+      }
     })
   } catch (error) {
     res.status(500).json({ success, Error: "Internal server error" });

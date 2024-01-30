@@ -1,11 +1,12 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
+import { Outlet } from 'react-router-dom'
+import SidebarWithBurgerMenu from '../components/Tutor/TutorNavbar'
 
 const Tutor = () => {
   return (
     <div>
-    <Navbar/>
-      hello tutor
+      <SidebarWithBurgerMenu />
+      <Outlet />
     </div>
   )
 }

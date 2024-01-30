@@ -183,17 +183,11 @@ function SidebarWithBurgerMenu() {
                 />
               </ListItemSuffix>
             </ListItem>
-            <ListItem>
+            <ListItem onClick={()=>{navigate('/');closeDrawer();}}>
               <ListItemPrefix>
                 <UserCircleIcon className="h-5 w-5" />
               </ListItemPrefix>
               Dashboard
-            </ListItem>
-            <ListItem onClick={()=>{navigate('/register')}}>
-              <ListItemPrefix>
-                <PlusIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              Add New User
             </ListItem>
             <ListItem onClick={()=>{localStorage.removeItem('token');navigate('/login')}}>
               <ListItemPrefix>

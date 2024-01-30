@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { AuthContext } from '../context/Authentication'
+import toast, { Toaster } from 'react-hot-toast'
 const Login = () => {
+    const {setIsAuthenticated}=useContext(AuthContext)
     const [login, setLogin] = useState({
         email: '',
         password: ''
@@ -16,15 +19,23 @@ const Login = () => {
 
         e.preventDefault();
         axios.post('http://localhost:5000/auth/login', login).then((value) => {
-            console.log(value)
             const token = value.data.authToken;
             localStorage.setItem('token', token)
+            setIsAuthenticated(true)
             navigate('/')
             setLogin({ email: "", password: "" })
+        }).catch((error)=>{
+            if(error.response.data.blocked){
+                toast.error('You are blocked!')
+            }
         })
     }
     return (
         <>
+         <Toaster
+        position="bottom-center"
+        reverseOrder={false}
+      />
             <div className="relative flex flex-col justify-center h-screen overflow-hidden lg:px-10 sm:px-6 px-4 gap-5">
                 <div className="w-full p-6 bg-white rounded-md shadow-md ring-2 ring-gray-800/50 lg:max-w-lg mx-auto">
                     <h1 className="text-3xl font-semibold text-center text-gray-700">Login</h1>

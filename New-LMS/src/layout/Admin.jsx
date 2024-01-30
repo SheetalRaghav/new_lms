@@ -1,11 +1,13 @@
 import React from 'react'
-import SidebarWithBurgerMenu from '../components/Navbar'
+
+import { Outlet } from 'react-router-dom'
+import SidebarWithBurgerMenu from '../components/Admin/AdminNavbar'
 
 const Admin = () => {
   return (
     <div>
-    <SidebarWithBurgerMenu/>
-      Hello admin
+      <SidebarWithBurgerMenu />
+      <Outlet />
     </div>
   )
 }
