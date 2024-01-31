@@ -1,11 +1,16 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../context/Authentication'
+import AdminDash from '../components/Admin/AdminDash'
 
 const Dashboard = () => {
-    const {authRole}=useContext(AuthContext)
+  const { authRole } = useContext(AuthContext)
   return (
     <div>
-      Hello from {authRole}
+      {
+        authRole === 'Admin' ? <>
+          <AdminDash />
+        </> : <></>
+      }
     </div>
   )
 }
