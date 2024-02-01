@@ -47,7 +47,7 @@ const Register = () => {
     e.preventDefault();
     axios.post("http://localhost:5000/auth/newuser", register).then((value) => {
       toast.success('User created!')
-      setRegister({ email: "", password: "", name: "",role:'Admin' });
+      setRegister({ email: "", password: "", name: "", role: 'Admin' });
     });
   };
   return (
@@ -59,7 +59,7 @@ const Register = () => {
       <div className="relative flex flex-col justify-center h-screen overflow-hidden gap-5 lg:px-10 sm:px-6 px-4">
         <div className="flex gap-6 justify-center items-center w-full mt-10">
           <button
-            className={`btn btn-outline ${register.role == "Admin" ? "text-gray-900" : ""} `}
+            className={`btn btn-outline ${register.role == "Admin" ? "text-gray-900" : "text-gray-500"} `}
             onClick={() => {
               setRegister((prev) => {
                 return { ...prev, role: "Admin" };
@@ -69,7 +69,7 @@ const Register = () => {
             Admin
           </button>
           <button
-            className={`btn btn-outline ${register.role == "Tutor" ? "text-gray-900" : ""} `}
+            className={`btn btn-outline ${register.role == "Tutor" ? "text-gray-900" : "text-gray-500"} `}
             onClick={() => {
               setRegister((prev) => {
                 return { ...prev, role: "Tutor" };
@@ -79,7 +79,7 @@ const Register = () => {
             Tutor
           </button>
           <button
-            className={`btn btn-outline ${register.role == "Student" ? "text-gray-900" : ""} `}
+            className={`btn btn-outline ${register.role == "Student" ? "text-gray-900" : "text-gray-500"} `}
             onClick={() => {
               setRegister((prev) => {
                 return { ...prev, role: "Student" };
@@ -146,7 +146,7 @@ const Register = () => {
               />
             </div>
             <div>
-              <button className="btn btn-block mt-5">Add</button>
+              <button className="btn btn-block mt-5 bg-gray-900 text-white hover:bg-gray-700 transition-all shadow-sm shdaow-gray-300">Add</button>
             </div>
           </form>
         </div>
