@@ -6,7 +6,9 @@ import Register from '../pages/Register'
 import Login from "../pages/Login";
 import Main from '../pages/Main'
 import Dashboard from "../pages/Dashboard";
-import BlockUser from "../components/Admin/BlockUser";
+import ManageUser from "../components/Admin/ManageUser";
+import AllCourses from "../components/Admin/AllCourses";
+import AddCourse from "../components/Common/AddCourse";
   const router = createBrowserRouter([
     {
         path:'/login',
@@ -25,9 +27,17 @@ import BlockUser from "../components/Admin/BlockUser";
           element: <Register></Register>,
         },
         {
-          path: "block-user",
-          element: <BlockUser></BlockUser>,
+          path: "users",
+          element: <ManageUser></ManageUser>,
         },
+        {
+          path:"courses",
+          element:<AllCourses></AllCourses>
+        },
+        {
+          path:"new-course",
+          element:<AddCourse/>
+        }
         
       ],
     }

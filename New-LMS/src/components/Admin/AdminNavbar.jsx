@@ -5,46 +5,25 @@ import {
   List,
   ListItem,
   ListItemPrefix,
-  ListItemSuffix,
-  Chip,
-  Accordion,
-  AccordionHeader,
-  AccordionBody,
-  Alert,
-  Input,
   Drawer,
   Card,
 } from "@material-tailwind/react";
 import {
-  PresentationChartBarIcon,
-  ShoppingBagIcon,
-  UserCircleIcon,
-  Cog6ToothIcon,
-  InboxIcon,
-  PowerIcon,
-  PlusIcon
-} from "@heroicons/react/24/solid";
-import {
-  ChevronRightIcon,
-  ChevronDownIcon,
-  CubeTransparentIcon,
-  MagnifyingGlassIcon,
   Bars3Icon,
   XMarkIcon,
-  NoSymbolIcon
+  PowerIcon,
+  UserGroupIcon,
+  AdjustmentsHorizontalIcon,
+  UserPlusIcon,
+  FolderPlusIcon,
+  SquaresPlusIcon,
+  UserCircleIcon
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 
 function SidebarWithBurgerMenu() {
   const navigate = useNavigate()
-  const [open, setOpen] = React.useState(0);
-  const [openAlert, setOpenAlert] = React.useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
-
-  const handleOpen = (value) => {
-    setOpen(open === value ? 0 : value);
-  };
-
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
 
@@ -82,18 +61,45 @@ function SidebarWithBurgerMenu() {
               </ListItemPrefix>
               Dashboard
             </ListItem>
-            <ListItem onClick={() => { navigate('/register'); closeDrawer(); }}>
+            <hr className="my-2 border-blue-gray-50" />
+            {/* manage users and courses */}
+            <ListItem onClick={() => { navigate('/users'); closeDrawer(); }}>
               <ListItemPrefix>
-                <PlusIcon className="h-5 w-5" />
+                <UserGroupIcon className="h-5 w-5" />
               </ListItemPrefix>
-              Add New User
+              Manage Users
             </ListItem>
-            <ListItem onClick={() => { navigate('/block-user'); closeDrawer(); }}>
+            <ListItem onClick={() => { navigate('/courses'); closeDrawer(); }}>
               <ListItemPrefix>
-                <NoSymbolIcon className="h-5 w-5" />
+                <AdjustmentsHorizontalIcon className="h-5 w-5" />
               </ListItemPrefix>
-              Block User
+              Manage Courses
             </ListItem>
+            {/*  */}
+            <hr className="my-2 border-blue-gray-50" />
+            {/* Actions */}
+            <ListItem onClick={() => { navigate('/new-course'); closeDrawer(); }}>
+              <ListItemPrefix>
+                <FolderPlusIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Add Course
+            </ListItem>
+            <ListItem onClick={() => { navigate('/'); closeDrawer(); }}>
+              <ListItemPrefix>
+                <UserPlusIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Add User
+            </ListItem>
+            <ListItem onClick={() => { navigate('/'); closeDrawer(); }}>
+              <ListItemPrefix>
+                <SquaresPlusIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Add Curriculum
+            </ListItem>
+            {/*  */}
+
+            <hr className="my-2 border-blue-gray-50" />
+            {/* for logout */}
             <ListItem onClick={() => { localStorage.removeItem('token'); navigate('/login') }}>
               <ListItemPrefix>
                 <PowerIcon className="h-5 w-5" />
