@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const fetchUser = require('../middleware/fetchUser')
 const secretKey = process.env.SECRET_KEY;
+const validRoles = ["Student", "Tutor", "Admin"];
 
 // ROUTE 1 for creating a new user
 router.post("/newuser", async (req, res) => {
@@ -58,14 +59,15 @@ router.post("/login", async (req, res) => {
           .status(400)
           .json({ success, Error: "please try to login with correct credentials 2" });
       } else {
-     if(!value.blocked){
-        success = true;
-        const userId = value.id;
-        const authToken = jwt.sign(userId, secretKey);
-        res.json({ success, authToken, blocked: value.blocked });}
-        else{
-        res.status(400).json({ success:false, blocked: value.blocked })
-          
+        if (!value.blocked) {
+          success = true;
+          const userId = value.id;
+          const authToken = jwt.sign(userId, secretKey);
+          res.json({ success, authToken, blocked: value.blocked });
+        }
+        else {
+          res.status(400).json({ success: false, blocked: value.blocked })
+
         }
       }
     });
@@ -111,7 +113,7 @@ router.post("/blockuser", fetchUser, async (req, res) => {
     await User.findOne({ _id: id }).then(async (value) => {
       if (value) {
         await User.findOneAndUpdate({ _id: req.body.identity }, { blocked: req.body.result }).then((response) => {
-          res.status(200).json({response})
+          res.status(200).json({ response })
         })
       }
     })
@@ -119,4 +121,40 @@ router.post("/blockuser", fetchUser, async (req, res) => {
     res.status(500).json({ success, Error: "Internal server error" });
   }
 })
+
+router.post("/updateUserRole", fetchUser, async (req, res) => {
+  try {
+    const userId = req.id;
+    const { identity, newRole } = req.body;
+
+    // Check if the new role is a valid role
+    if (!validRoles.includes(newRole)) {
+      return res.status(400).json({ success: false, error: "Invalid role specified" });
+    }
+
+    // Find the user by ID
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    // Update the role of the specified user
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: identity },
+      { role: newRole },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, error: "User to update not found" });
+    }
+
+    res.status(200).json({ success: true, updatedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
+
 module.exports = router;
