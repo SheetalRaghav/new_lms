@@ -6,6 +6,21 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
 const TableRow = ({ blocked, number, email, role, name, id }) => {
+    const [newRole, SetNewRole] = useState(role)
+    const handleRoleChange = (e) => {
+        const selected = e.target.value
+        SetNewRole(selected)
+    }
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        axios.post('http://localhost:5000/auth/updateUserRole', { identity: id, newRole: newRole }, {
+            headers: {
+                "auth-token": token
+            }
+        }).then((value) => {
+            console.log(value)
+        })
+    }, [newRole])
     const [isChecked, setIsChecked] = useState(blocked)
     const handleChange = (e) => {
         const result = e.target.checked;
@@ -32,10 +47,10 @@ const TableRow = ({ blocked, number, email, role, name, id }) => {
             </td>
             <td className="whitespace-nowrap px-6 py-3 text-base">{email}</td>
             <td className="whitespace-nowrap px-2 py-3 text-base">
-                <select className=" max-w-[100px] select select-sm" value={role}>
-                    <option>Admin</option>
-                    <option>Tutor</option>
-                    <option>Student</option>
+                <select className=" max-w-[100px] select select-sm" value={newRole} onChange={handleRoleChange}>
+                    <option value={'Admin'}>Admin</option>
+                    <option value={'Tutor'}>Tutor</option>
+                    <option value={'Student'}>Student</option>
                 </select></td>
 
             <td className="whitespace-nowrap px-6 py-3">
