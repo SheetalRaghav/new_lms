@@ -56,7 +56,7 @@ const Register = () => {
         position="bottom-center"
         reverseOrder={false}
       />
-      <div className="relative flex flex-col justify-center h-screen overflow-hidden gap-5 lg:px-10 sm:px-6 px-4">
+      <div className="relative flex flex-col justify-start sm:mt-[100px] mt-[3%] py-3 overflow-hidden gap-5 lg:px-10 sm:px-6 px-4">
         <div className="flex gap-6 justify-center items-center w-full mt-10">
           <button
             className={`btn btn-outline ${register.role == "Admin" ? "text-gray-900" : "text-gray-500"} `}

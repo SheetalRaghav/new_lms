@@ -17,9 +17,11 @@ import {
   UserPlusIcon,
   FolderPlusIcon,
   SquaresPlusIcon,
-  UserCircleIcon
+  UserCircleIcon,
+  WrenchScrewdriverIcon
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import lmsIcon from '../../assets/lmsIcon.png'
 
 function SidebarWithBurgerMenu() {
   const navigate = useNavigate()
@@ -44,7 +46,7 @@ function SidebarWithBurgerMenu() {
         >
           <div className="mb-2 flex items-center gap-4 p-4">
             <img
-              src="https://docs.material-tailwind.com/img/logo-ct-dark.png"
+              src={lmsIcon}
               alt="brand"
               className="h-8 w-8"
             />
@@ -75,6 +77,12 @@ function SidebarWithBurgerMenu() {
               </ListItemPrefix>
               Manage Courses
             </ListItem>
+            <ListItem onClick={() => { navigate('/category'); closeDrawer(); }}>
+              <ListItemPrefix>
+                <WrenchScrewdriverIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Manage Category
+            </ListItem>
             {/*  */}
             <hr className="my-2 border-blue-gray-50" />
             {/* Actions */}
@@ -84,20 +92,19 @@ function SidebarWithBurgerMenu() {
               </ListItemPrefix>
               Add Course
             </ListItem>
-            <ListItem onClick={() => { navigate('/'); closeDrawer(); }}>
+            <ListItem onClick={() => { navigate('/register'); closeDrawer(); }}>
               <ListItemPrefix>
                 <UserPlusIcon className="h-5 w-5" />
               </ListItemPrefix>
               Add User
             </ListItem>
-            <ListItem onClick={() => { navigate('/'); closeDrawer(); }}>
+            <ListItem onClick={() => { navigate('/curriculum'); closeDrawer(); }}>
               <ListItemPrefix>
                 <SquaresPlusIcon className="h-5 w-5" />
               </ListItemPrefix>
               Add Curriculum
             </ListItem>
             {/*  */}
-
             <hr className="my-2 border-blue-gray-50" />
             {/* for logout */}
             <ListItem onClick={() => { localStorage.removeItem('token'); navigate('/login') }}>

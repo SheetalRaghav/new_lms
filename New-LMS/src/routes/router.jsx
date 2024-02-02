@@ -9,6 +9,7 @@ import Dashboard from "../pages/Dashboard";
 import ManageUser from "../components/Admin/ManageUser";
 import AllCourses from "../components/Admin/AllCourses";
 import AddCourse from "../components/Common/AddCourse";
+import CategoryPage from "../components/Common/CategoryPage";
   const router = createBrowserRouter([
     {
         path:'/login',
@@ -37,6 +38,10 @@ import AddCourse from "../components/Common/AddCourse";
         {
           path:"new-course",
           element:<AddCourse/>
+        },
+        {
+          path:"category",
+          element:<CategoryPage/>
         }
         
       ],
