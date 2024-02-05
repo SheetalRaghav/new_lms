@@ -8,7 +8,7 @@ import { AuthContext } from "../context/Authentication";
 
 const Main = () => {
   const [render, setRender] = useState(false);
-  const { setIsAuthenticated, setAuthRole } = useContext(AuthContext);
+  const { setIsAuthenticated, setAuthRole, setUserId } = useContext(AuthContext);
   const [role, setRole] = useState("");
   useEffect(() => {
     setAuthRole(role);
@@ -29,6 +29,7 @@ const Main = () => {
         )
         .then((value) => {
           setRole(value.data.value.role);
+          setUserId(value.data.value._id)
           setIsAuthenticated(true);
           setRender(true);
         })
