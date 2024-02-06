@@ -10,6 +10,8 @@ import ManageUser from "../components/Admin/ManageUser";
 import AllCourses from "../components/Admin/AllCourses";
 import AddCourse from "../components/Common/AddCourse";
 import CategoryPage from "../components/Admin/CategoryPage";
+import SelectCourseForCurriculum from "../components/Common/SelectCourseForCurriculum";
+import AddCurriculum from "../components/Common/AddCurriculum";
   const router = createBrowserRouter([
     {
         path:'/login',
@@ -42,7 +44,16 @@ import CategoryPage from "../components/Admin/CategoryPage";
         {
           path:"category",
           element:<CategoryPage/>
-        }
+        },
+        {
+          path:"curriculum",
+          element:<SelectCourseForCurriculum></SelectCourseForCurriculum>,
+        },
+        {
+          path:"curriculum/:id",
+          element:<AddCurriculum></AddCurriculum>,
+        },
+
         
       ],
     }
