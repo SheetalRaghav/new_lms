@@ -12,7 +12,6 @@ import AddCourse from "../components/Common/AddCourse";
 import CategoryPage from "../components/Admin/CategoryPage";
 import SelectCourseForCurriculum from "../components/Common/SelectCourseForCurriculum";
 import AddCurriculum from "../components/Common/AddCurriculum";
-import CourseAssign from "../components/Admin/CourseAssign";
 const router = createBrowserRouter([
   {
     path: '/login',
@@ -54,11 +53,6 @@ const router = createBrowserRouter([
         path: "curriculum/:id",
         element: <AddCurriculum></AddCurriculum>,
       },
-      {
-        path: 'student-course',
-        element: <CourseAssign />
-      }
-
     ],
   }
 ]);
