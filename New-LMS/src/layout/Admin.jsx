@@ -5,7 +5,7 @@ import SidebarWithBurgerMenu from '../components/Admin/AdminNavbar'
 
 const Admin = () => {
   return (
-    <div className=' bg-[#fafafa] h-full'>
+    <div className=' bg-[#ffffff]  '>
       <SidebarWithBurgerMenu />
       <Outlet />
     </div>

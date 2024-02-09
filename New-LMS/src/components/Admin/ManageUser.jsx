@@ -4,9 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { FaCircle } from "react-icons/fa";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { DataContext } from "../../context/DataContext";
 
-const TableRow = ({ blocked, number, email, role, name, id }) => {
-    const [newRole, SetNewRole] = useState(role)
+const TableRow = ({ blocked, number, email, role, name, id, filtered}) => {
+    
+const {callUsers}=useContext(DataContext);
+useEffect(()=>{
+    setIsChecked(blocked)
+    SetNewRole(role)
+},[filtered])
+    const [newRole, SetNewRole] = useState('')
     const handleRoleChange = (e) => {
         const selected = e.target.value
         SetNewRole(selected)
@@ -18,10 +25,10 @@ const TableRow = ({ blocked, number, email, role, name, id }) => {
                 "auth-token": token
             }
         }).then((value) => {
-            console.log(value)
+            callUsers()
         })
     }, [newRole])
-    const [isChecked, setIsChecked] = useState(blocked)
+    const [isChecked, setIsChecked] = useState('')
     const handleChange = (e) => {
         const result = e.target.checked;
         const id = (e.target.id);
@@ -30,6 +37,7 @@ const TableRow = ({ blocked, number, email, role, name, id }) => {
         axios.post('http://localhost:5000/auth/blockuser', { result: result, identity: id }, { headers: { "auth-token": token } }).then((value) => {
             if (value.status === 200) {
                 toast.success('Done!')
+                callUsers()
             }
             else {
                 toast.error('Internal error!')
@@ -69,26 +77,29 @@ const TableRow = ({ blocked, number, email, role, name, id }) => {
     );
 };
 const ManageUser = () => {
+    
     const navigate = useNavigate();
     const { authRole } = useContext(AuthContext);
     if (authRole !== "Admin") {
         navigate("/");
     }
-    const [allUsers, setAllUsers] = useState([])
-    
-    useEffect(() => {
-        const token = localStorage.getItem('token')
-        axios.post('http://localhost:5000/auth/fetchallusers', {},
-            {
-                headers: {
-                    "auth-token": token,
-                },
-            }).then((value) => {
-                setAllUsers(value.data.value)
-            })
-    }, [])
+const {userData}=useContext(DataContext)
+const [filtered, setFiltered] = useState(userData);
+const [keyword, setKeyword] = useState("");
 
 
+useEffect(() => { 
+    function searchCourses(searchTerm) {
+        if (searchTerm.trim() === "") {
+            return userData; // Return all data if search term is empty
+        }
+        const searchResults = userData?.filter((course) =>
+            course.email.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        return searchResults;
+    }
+    setFiltered(searchCourses(keyword));
+}, [keyword,userData]);
     return <div className="w-full mt-5">{authRole === "Admin" ? <div className="flex flex-col gap-5">
         <Toaster
             position="bottom-center"
@@ -101,7 +112,7 @@ const ManageUser = () => {
                 </svg>
             </span>
 
-            <input type="text" placeholder="Search" class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" />
+            <input onChange={(e)=>{setKeyword(e.target.value)}} value={keyword} type="text" placeholder="Search" class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" />
         </div>
         <div className="flex flex-col overflow-x-auto">
             <div className="">
@@ -131,7 +142,7 @@ const ManageUser = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {allUsers.map((elem, index) => {
+                                {filtered?.map((elem, index) => {
                                     return <TableRow key={index}
                                         number={index + 1}
                                         name={elem.name}
@@ -139,6 +150,7 @@ const ManageUser = () => {
                                         role={elem.role}
                                         blocked={elem.blocked}
                                         id={elem._id}
+                                        filtered={filtered}
                                     />
                                 })}
                             </tbody>

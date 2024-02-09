@@ -4,7 +4,6 @@ import { FaUser } from "react-icons/fa";
 import { SiStudyverse } from "react-icons/si";
 import { BiSolidCategory } from "react-icons/bi";
 import { Link } from 'react-router-dom'
-import { IoMdAddCircle } from "react-icons/io";
 import CourseList from './CourseList';
 import { DataContext } from '../../context/DataContext';
 import { AgChartsReact } from 'ag-charts-react';
@@ -117,7 +116,7 @@ const AdminDash = () => {
         <div className='w-full lg:px-10 mt-5 px-5'>
         {/*  */}
         <section className="w-full px-4">
-      <div className="flex items-center justify-center py-4">
+      <div className="flex items-center justify-center py-4 ">
         <div className="grid md:grid-cols-3 grid-cols-1 gap-4 md:w-auto w-full place-items-center">
           <button className='flex bg-blue-500 w-[170px] max-w-[170px] gap-2 shadow-md shadow-gray-400 text-white font-semibold text-lg justify-center items-center px-2 py-1 rounded-md' >
             <UserIcon className="h-4 w-4" />
