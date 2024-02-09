@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { DataContext } from "../../context/DataContext";
-const TableRow = ({ title, category, status, instructor, id }) => {
+const TableRow = ({ title, date}) => {
     return (
         <tr>
             <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">
@@ -13,12 +13,8 @@ const TableRow = ({ title, category, status, instructor, id }) => {
             </td>
             
             <td className="px-12 py-4 text-sm font-medium whitespace-nowrap">
-                <div
-                    className={`inline px-3 py-1 text-sm  rounded-full text-black font-medium ${status === "Approved" ? "bg-green-200" : ""
-                        } ${status === "Rejected" ? "bg-red-200" : ""}${status === "Pending" ? "bg-gray-200" : ""
-                        } shadow-sm shadow-gray-400`}
-                >
-                    {status}
+                <div>
+                    <h2 className="font-medium text-gray-800 dark:text-white ">{date}</h2>
                 </div>
             </td>
            
@@ -26,8 +22,15 @@ const TableRow = ({ title, category, status, instructor, id }) => {
         </tr>
     );
 };
-const CourseList = () => {
-    const { courseData } = useContext(DataContext)
+const LectureList = () => {
+    const data=[
+        {title:"Lecture 1",date:"29-02-24"},
+        {title:"Lecture 1",date:"29-02-24"},
+        {title:"Lecture 1",date:"29-02-24"},
+        {title:"Lecture 1",date:"29-02-24"},
+        {title:"Lecture 1",date:"29-02-24"},
+        {title:"Lecture 1",date:"29-02-24"},
+    ]
 
     return (
         <div className="lg:w-[49%] w-full">
@@ -35,7 +38,8 @@ const CourseList = () => {
                 <div className="sm:flex sm:items-center sm:justify-between">
                     <div>
                         <div className="flex items-center gap-x-3">
-                            <h2 className="text-2xl font-semibold text-gray-700 dark:text-white">Courses</h2>
+                            <h2 className="text-2xl font-semibold text-gray-700 dark:text-white w-full">Upcoming Lectures</h2>
+
                         </div>
                     </div>
                 </div>
@@ -63,21 +67,18 @@ const CourseList = () => {
                                                 scope="col"
                                                 className="px-[60px] py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                                             >
-                                                Status
+                                                Date
                                             </th>
                                             
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                        {courseData?.map((elem, index) => {
+                                        {data?.map((elem, index) => {
                                                 return (
                                                     <TableRow
                                                         key={index}
                                                         title={elem.title}
-                                                        category={elem.category}
-                                                        status={elem.status}
-                                                        instructor={elem.instructor}
-                                                        id={index + 1}
+                                                        date={elem.date}
                                                     />
                                                 );
                                             })}
@@ -87,7 +88,7 @@ const CourseList = () => {
                         </div>
                     </div>
                 </div>
-                <Link to="/courses" class="flex gap-2 justify-center items-center max-w-[90px] px-2 py-1 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 mt-2 shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-rounded="rounded-md" data-primary="blue-600" data-primary-reset="{}">
+                <Link to="/schedule" class="flex gap-2 justify-center items-center max-w-[90px] px-2 py-1 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 mt-2 shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-rounded="rounded-md" data-primary="blue-600" data-primary-reset="{}">
                     View All
                 </Link>
             </section>
@@ -95,4 +96,4 @@ const CourseList = () => {
     );
 };
 
-export default CourseList;
+export default LectureList;
