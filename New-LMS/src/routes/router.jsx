@@ -12,6 +12,8 @@ import AddCourse from "../components/Common/AddCourse";
 import CategoryPage from "../components/Admin/CategoryPage";
 import SelectCourseForCurriculum from "../components/Common/SelectCourseForCurriculum";
 import AddCurriculum from "../components/Common/AddCurriculum";
+import SelectCouresForSchedule from "../components/Common/SelectCouresForSchedule";
+import AddBatch from "../components/Common/Schedule/AddBatch";
 const router = createBrowserRouter([
   {
     path: '/login',
@@ -52,6 +54,14 @@ const router = createBrowserRouter([
       {
         path: "curriculum/:id",
         element: <AddCurriculum></AddCurriculum>,
+      },
+      {
+        path: "schedule",
+        element: <SelectCouresForSchedule/>,
+      },
+      {
+        path: "schedule/:id",
+        element: <AddBatch></AddBatch>,
       },
     ],
   }

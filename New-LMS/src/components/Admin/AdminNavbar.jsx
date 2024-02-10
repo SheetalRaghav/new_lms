@@ -18,7 +18,8 @@ import {
   FolderPlusIcon,
   SquaresPlusIcon,
   UserCircleIcon,
-  WrenchScrewdriverIcon
+  WrenchScrewdriverIcon,
+  CalendarDaysIcon
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import lmsIcon from '../../assets/lmsIcon.png'
@@ -103,6 +104,12 @@ function SidebarWithBurgerMenu() {
                 <SquaresPlusIcon className="h-5 w-5" />
               </ListItemPrefix>
               Add Curriculum
+            </ListItem>
+            <ListItem onClick={() => { navigate('/schedule'); closeDrawer(); }}>
+              <ListItemPrefix>
+                <CalendarDaysIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Add Schedule
             </ListItem>
             {/*  */}
             <hr className="my-2 border-blue-gray-50" />
