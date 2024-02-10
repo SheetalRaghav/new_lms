@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/Authentication'
 import { DataContext } from '../../context/DataContext';
 import axios from 'axios';
@@ -23,6 +23,16 @@ axios.post('http://localhost:5000/course/add-course',{...formData},{headers:{"au
 })
   }
 const {categoryData,callCourse}=useContext(DataContext)
+const [fetchedCategoryData, setFetchedCategoryData] = useState([])
+useEffect(() => {
+     if (categoryData.success) {
+       setFetchedCategoryData(categoryData?.categories)
+       return;
+     }
+     else{
+       return;
+     }
+   }, [categoryData])
   return (
     <div className='lg:px-10 px-5 w-full mt-5'>
       <h1 className='text-xl font-semibold text-center my-5 '>Add New Course</h1>
@@ -36,8 +46,8 @@ const {categoryData,callCourse}=useContext(DataContext)
           <span className="text-lg">Category :</span>
 
         </div>
-        <select required className="select select-bordered w-full max-w-xl" value={categoryData.find((elem)=>{return elem===formData.categoryId})?.title} onChange={(e)=>{setFormData((prev)=>{return {...prev,categoryId:e.target.value}})}} >
-          {categoryData.map((elem)=>{
+        <select required className="select select-bordered w-full max-w-xl" value={fetchedCategoryData?.find((elem)=>{return elem===formData.categoryId})?.title} onChange={(e)=>{setFormData((prev)=>{return {...prev,categoryId:e.target.value}})}} >
+          {fetchedCategoryData?.map((elem)=>{
             return <option value={elem._id}>{elem.title}</option>
           })}
         </select>

@@ -9,6 +9,7 @@ import { DataContext } from "../../context/DataContext";
 const TableRow = ({ blocked, number, email, role, name, id, filtered}) => {
     
 const {callUsers}=useContext(DataContext);
+
 useEffect(()=>{
     setIsChecked(blocked)
     SetNewRole(role)
@@ -84,22 +85,34 @@ const ManageUser = () => {
         navigate("/");
     }
 const {userData}=useContext(DataContext)
-const [filtered, setFiltered] = useState(userData);
+// 
+const [fetchedUserData, setFetchedUserData] = useState([])
+useEffect(() => {
+      if (userData.success) {
+        setFetchedUserData(userData.value)
+        return;
+      }
+      else{
+        return;
+      }
+    }, [userData])
+// 
+const [filtered, setFiltered] = useState(fetchedUserData);
 const [keyword, setKeyword] = useState("");
 
 
 useEffect(() => { 
     function searchCourses(searchTerm) {
         if (searchTerm.trim() === "") {
-            return userData; // Return all data if search term is empty
+            return fetchedUserData; // Return all data if search term is empty
         }
-        const searchResults = userData?.filter((course) =>
+        const searchResults = fetchedUserData?.filter((course) =>
             course.email.toLowerCase().includes(searchTerm.toLowerCase())
         );
         return searchResults;
     }
     setFiltered(searchCourses(keyword));
-}, [keyword,userData]);
+}, [keyword,fetchedUserData]);
     return <div className="w-full mt-5">{authRole === "Admin" ? <div className="flex flex-col gap-5">
         <Toaster
             position="bottom-center"

@@ -13,19 +13,19 @@ export const Data = ({ children }) => {
     const callCourse = () => {
         const token = localStorage.getItem('token')
         axios.get('http://localhost:5000/course/all-course', { headers: { "auth-token": token } }).then((value) => {
-            setCourseData(value.data.course)
+            setCourseData(value.data)
         })
     }
     const callUsers = () => {
         const token = localStorage.getItem('token')
         axios.post('http://localhost:5000/auth/fetchallusers', {}, { headers: { "auth-token": token } }).then((value) => {
-            setUserData(value.data.value)
+            setUserData(value.data)
         })
     }
     const callCategory = () => {
         const token = localStorage.getItem('token')
         axios.get('http://localhost:5000/category/all-categories', { headers: { "auth-token": token } }).then((value) => {
-            setCategoryData(value.data.categories)
+            setCategoryData(value.data)
         })
     }
     const [categoryData, setCategoryData] = useState([]);

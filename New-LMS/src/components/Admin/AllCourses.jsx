@@ -5,13 +5,33 @@ import { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 import axios from "axios";
 const TableRow = ({ title, category, status, instructor, id, description }) => {
+    const { categoryData, userData, callCourse } = useContext(DataContext)
+    const [fetchedUserData, setFetchedUserData] = useState([])
+    const [fetchedCategoryData, setFetchedCategoryData] = useState([])
+ useEffect(() => {
+      if (userData.success) {
+        setFetchedUserData(userData.value)
+        return;
+      }
+      else{
+        return;
+      }
+    }, [userData])
+ useEffect(() => {
+      if (categoryData.success) {
+        setFetchedCategoryData(categoryData?.categories)
+        return;
+      }
+      else{
+        return;
+      }
+    }, [categoryData])
     const [newData, setNewData] = useState({
         title: '',
         description: '',
         status: ''
     })
     const SaveForm = useRef()
-    const { categoryData, userData, callCourse } = useContext(DataContext)
     const token = localStorage.getItem('token')
     const handleDelete = () => {
         axios.delete(`http://localhost:5000/course/delete-course/${id}`, { headers: { "auth-token": token } }).then((value) => {
@@ -38,7 +58,7 @@ const TableRow = ({ title, category, status, instructor, id, description }) => {
             </td>
             <td className="px-4 py-4 text-sm whitespace-nowrap">
                 <div>
-                    <h4 className="text-gray-700 dark:text-gray-200">{categoryData?.find(course => course._id === category)?.title}</h4>
+                    <h4 className="text-gray-700 dark:text-gray-200">{fetchedCategoryData?.find(course => course._id === category)?.title}</h4>
                 </div>
             </td>
             <td className="px-12 py-4 text-sm font-medium whitespace-nowrap">
@@ -51,7 +71,7 @@ const TableRow = ({ title, category, status, instructor, id, description }) => {
                 </div>
             </td>
             <td className="px-4 py-4 text-sm whitespace-nowrap">
-                <div className="flex items-center">{userData?.find(user => user._id === instructor)?.name}</div>
+                <div className="flex items-center">{fetchedUserData?.find(user => user._id === instructor)?.name}</div>
             </td>
             <td className="px-4 py-4 text-sm whitespace-nowrap">
                 <div className="flex gap-2 items-center ">
@@ -125,20 +145,33 @@ const TableRow = ({ title, category, status, instructor, id, description }) => {
     );
 };
 const AllCourses = () => {
+    const { courseData } = useContext(DataContext)
+
+    const [fetchedCourseData, setFetchedCourseData] = useState([])
+    useEffect(() => {
+      if (courseData.success) {
+        setFetchedCourseData(courseData?.course)
+        return;
+      }
+      else{
+        return;
+      }
+    }, [courseData])
+
     const [selected, setSelected] = useState("");
     const [filtered, setFiltered] = useState([]);
     const [keyword, setKeyword] = useState("");
-    const { courseData } = useContext(DataContext)
+
     useEffect(() => {
-        setFiltered(courseData)
-    }, [courseData])
+        setFiltered(fetchedCourseData)
+    }, [fetchedCourseData])
     useEffect(() => {
         function searchCourses(searchTerm) {
             if (searchTerm.trim() === "") {
-                return courseData; // Return all data if search term is empty
+                return fetchedCourseData; // Return all data if search term is empty
             }
 
-            const searchResults = courseData?.filter((course) =>
+            const searchResults = fetchedCourseData?.filter((course) =>
                 course.title.toLowerCase().includes(searchTerm.toLowerCase())
             );
             return searchResults;
@@ -154,7 +187,7 @@ const AllCourses = () => {
                             <h2 className="text-lg font-medium text-gray-800 dark:text-white">Courses</h2>
 
                             <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-                                {courseData?.length} Courses
+                                {fetchedCourseData?.length} Courses
                             </span>
                         </div>
                     </div>

@@ -94,7 +94,16 @@ const CategoryPage = () => {
   const { categoryData, callCategory } = useContext(DataContext)
   const [title, setTitle] = useState('')
   const [update, setUpdate] = useState('')
-
+  const [fetchedCategoryData, setFetchedCategoryData] = useState([])
+  useEffect(() => {
+       if (categoryData.success) {
+         setFetchedCategoryData(categoryData?.categories)
+         return;
+       }
+       else{
+         return;
+       }
+     }, [categoryData])
   useEffect(() => {
     callCategory();
   }, [update])
@@ -167,7 +176,7 @@ const CategoryPage = () => {
                       </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                      {categoryData?.map((elem, index) => {
+                      {fetchedCategoryData?.map((elem, index) => {
                         return <TableRow
                           id={elem._id}
                           category={elem.title}

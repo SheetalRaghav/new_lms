@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MdDelete } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
 import { DataContext } from "../../context/DataContext";
-const TableRow = ({ title, category, status, instructor, id }) => {
+const TableRow = ({ title, status }) => {
     return (
         <tr>
             <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">
@@ -16,8 +14,7 @@ const TableRow = ({ title, category, status, instructor, id }) => {
                 <div
                     className={`inline px-3 py-1 text-sm  rounded-full text-black font-medium ${status === "Approved" ? "bg-green-200" : ""
                         } ${status === "Rejected" ? "bg-red-200" : ""}${status === "Pending" ? "bg-gray-200" : ""
-                        } shadow-sm shadow-gray-400`}
-                >
+                        } shadow-sm shadow-gray-400`}>
                     {status}
                 </div>
             </td>
@@ -28,7 +25,16 @@ const TableRow = ({ title, category, status, instructor, id }) => {
 };
 const CourseList = () => {
     const { courseData } = useContext(DataContext)
-
+    const [fetchedCourseData, setFetchedCourseData] = useState([])
+    useEffect(() => {
+        if (courseData.success) {
+          setFetchedCourseData(courseData?.course)
+          return;
+        }
+        else{
+          return;
+        }
+      }, [courseData])
     return (
         <div className="lg:w-[49%] w-full">
             <section className="bg-white shadow-md p-4 rounded-md shadow-gray-400">
@@ -69,7 +75,7 @@ const CourseList = () => {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                        {courseData?.map((elem, index) => {
+                                        {fetchedCourseData?.map((elem, index) => {
                                                 return (
                                                     <TableRow
                                                         key={index}

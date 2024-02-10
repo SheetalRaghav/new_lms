@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import ModalForEdit from "./Curriculum/ModalForEdit";
 import ModalForLectureEdit from "./Curriculum/ModalForLectureEdit";
-
 const AddCurriculum = () => {
   // for modules ******************************************************************************************
   const openAdd = useRef();
@@ -21,10 +20,19 @@ const AddCurriculum = () => {
   const [data, setData] = useState([]);
   const { courseData, callCourse } = useContext(DataContext);
   const { id } = useParams();
-
+  const [fetchedCourseData, setFetchedCourseData] = useState([])
   useEffect(() => {
-    setCourse(courseData?.find((course) => course._id === id));
-  }, [courseData]);
+    if (courseData.success) {
+      setFetchedCourseData(courseData?.course)
+      return;
+    }
+    else{
+      return;
+    }
+  }, [courseData])
+  useEffect(() => {
+    setCourse(fetchedCourseData?.find((course) => course._id === id));
+  }, [fetchedCourseData]);
 
   useEffect(() => {
     setData(course?.data);
