@@ -4,30 +4,26 @@ import axios from 'axios';
 import { FaEdit } from 'react-icons/fa';
 import { IoMdAdd } from "react-icons/io";
 import { MdDelete } from 'react-icons/md';
-import { DataContext } from '../../../context/DataContext';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 const AddBatch = () => {
-  const { categoryData, callCategory } = useContext(DataContext)
   const [title, setTitle] = useState('')
   const [update, setUpdate] = useState('')
-  const [fetchedCategoryData, setFetchedCategoryData] = useState([])
+  const [fetchedData, setFetchedData] = useState([])
+  const token = localStorage.getItem('token')
+  const { id } = useParams()
+  const callBatches = () => {
+    axios.get(`http://localhost:5000/batch/all-batch/${id}`, { headers: { "auth-token": token } }).then((value) => {
+      setFetchedData(value.data.batch)
+
+    })
+  }
   useEffect(() => {
-    if (categoryData.success) {
-      setFetchedCategoryData(categoryData?.categories)
-      return;
-    }
-    else {
-      return;
-    }
-  }, [categoryData])
-  useEffect(() => {
-    callCategory();
+    callBatches();
   }, [update])
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token')
-    axios.post('http://localhost:5000/category/add-category', { title: title }, { headers: { "auth-token": token } }).then((value) => {
+    axios.post('http://localhost:5000/batch/add-batch', { title: title, courseId: id }, { headers: { "auth-token": token } }).then((value) => {
       console.log(value)
       setTitle('')
       setUpdate(value)
@@ -87,12 +83,12 @@ const AddBatch = () => {
                       </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                      {fetchedCategoryData?.map((elem, index) => {
+                      {fetchedData?.map((elem, index) => {
                         return <TableRow
+                        key={index}
                           id={elem._id}
                           category={elem.title}
-                          date={'24-02-2024'}
-                          number={index + 1}
+                          date={elem.date.slice(0,10)}
                           setUpdate={setUpdate}
                         />
                       })}
@@ -109,30 +105,33 @@ const AddBatch = () => {
   )
 }
 
-const TableRow = ({date, category, id, setUpdate }) => {
+const TableRow = ({ date, category, id, setUpdate }) => {
   const [newCategory, setNewCategory] = useState('')
   const openTheModal = useRef();
   const closeTheModal = useRef();
   const saveForm = useRef();
 
   // Convert to IST (Indian Standard Time)
- 
+
 
   // Format the date
-  
+
   const token = localStorage.getItem('token')
 
   const deleteItem = () => {
-    axios.delete(`http://localhost:5000/category/delete-category/${id}`, { headers: { "auth-token": token } }).then((value) => {
-      console.log(value)
+    axios.delete(`http://localhost:5000/batch/delete-batch/${id}`, { headers: { "auth-token": token } }).then((value) => {
       setUpdate(value)
     })
   }
-  const EditItem = () => {
-    axios.patch('http://localhost:5000/category/edit-category', {
+  const EditItem = (e) => {
+    e.preventDefault();
+    axios.patch('http://localhost:5000/batch/edit-batch', {
       identity: id,
-      newCategory: newCategory
-    }, { headers: { "auth-token": token } })
+      newTitle: newCategory
+    }, { headers: { "auth-token": token } }).then((value)=>{
+      setUpdate(value)
+      closeTheModal.current.click();
+    })
   }
   return (
     <>
@@ -159,7 +158,7 @@ const TableRow = ({date, category, id, setUpdate }) => {
         </td>
         <td class="px-4 py-4 sm:text-base text-sm whitespace-nowrap">
           <div className='flex gap-2 items-center '>
-          <Link to={'hello'}><BiRightArrowCircle size={25} className="cursor-pointer" /></Link>
+            <Link to={'hello'}><BiRightArrowCircle size={25} className="cursor-pointer" /></Link>
           </div>
         </td>
       </tr>
