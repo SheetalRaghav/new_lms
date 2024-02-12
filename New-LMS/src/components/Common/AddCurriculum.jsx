@@ -92,7 +92,7 @@ const AddCurriculum = () => {
   const [selectedModule, setSelectedModule] = useState(null)
   // for adding a new module
   function addLecture(title, modIndex) {
-    const newItem = { title: title };
+    const newItem = { title: title , schedule:[] };
     const gettingData = data;
     gettingData[modIndex].curriculum.push(newItem);
     setDataInDB(gettingData);

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/Authentication'
 import { DataContext } from '../../context/DataContext';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 const AddCourse = () => {
   const {userId}=useContext(AuthContext);
   const [formData,setFormData]=useState({
@@ -14,12 +15,12 @@ const AddCourse = () => {
   const handleSubmit=(e)=>{
 e.preventDefault();
 axios.post('http://localhost:5000/course/add-course',{...formData},{headers:{"auth-token":token}}).then((value)=>{
-  console.log(value)
-  callCourse();
   setFormData({ title:'',
   description:'',
   categoryId:'',
   userId:userId})
+  toast.success('Course added!')
+  callCourse();
 })
   }
 const {categoryData,callCourse}=useContext(DataContext)
@@ -34,6 +35,11 @@ useEffect(() => {
      }
    }, [categoryData])
   return (
+    <>
+    <Toaster
+        position="bottom-center"
+        reverseOrder={false}
+      />
     <div className='lg:px-10 px-5 w-full mt-5'>
       <h1 className='text-xl font-semibold text-center my-5 '>Add New Course</h1>
       <form className='flex flex-col gap-5 max-w-xl mx-auto px-5 py-10 bg-gray-50 shadow-md shadow-gray-300 rounded-md ' onSubmit={handleSubmit}>
@@ -46,7 +52,8 @@ useEffect(() => {
           <span className="text-lg">Category :</span>
 
         </div>
-        <select required className="select select-bordered w-full max-w-xl" value={fetchedCategoryData?.find((elem)=>{return elem===formData.categoryId})?.title} onChange={(e)=>{setFormData((prev)=>{return {...prev,categoryId:e.target.value}})}} >
+        <select required className="select select-bordered w-full max-w-xl" value={formData.categoryId===""?'':fetchedCategoryData?.find((elem)=>{return elem===formData.categoryId})?.title} onChange={(e)=>{setFormData((prev)=>{return {...prev,categoryId:e.target.value}})}} >
+          <option value={''} disabled>Select Category</option>
           {fetchedCategoryData?.map((elem)=>{
             return <option value={elem._id}>{elem.title}</option>
           })}
@@ -59,6 +66,7 @@ useEffect(() => {
         <button className='bg-gray-300 text-black min-w-[120px] max-w-[150px] mx-auto px-2 py-1 rounded-md hover:bg-blue-gray-100 font-semibold'>Add</button>
       </form>
     </div>
+    </>
   )
 }
 
