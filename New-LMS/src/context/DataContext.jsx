@@ -31,12 +31,12 @@ export const Data = ({ children }) => {
     const [categoryData, setCategoryData] = useState([]);
     const [userData, setUserData] = useState([]);
     const [courseData, setCourseData] = useState([]);
-
+   const [selectedCourse,setSelectedCourse]=useState({})
     return (
         <DataContext.Provider value={{
             categoryData, setCategoryData,
             userData, setUserData,
-            courseData, setCourseData, callUsers, callCategory, callCourse
+            courseData, setCourseData, callUsers, callCategory, callCourse,selectedCourse,setSelectedCourse
         }}>
             {children}
         </DataContext.Provider>

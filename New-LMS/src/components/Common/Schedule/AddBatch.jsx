@@ -158,7 +158,7 @@ const TableRow = ({ date, category, id, setUpdate }) => {
         </td>
         <td class="px-4 py-4 sm:text-base text-sm whitespace-nowrap">
           <div className='flex gap-2 items-center '>
-            <Link to={'hello'}><BiRightArrowCircle size={25} className="cursor-pointer" /></Link>
+            <Link to={`${id}`}><BiRightArrowCircle size={25} className="cursor-pointer" /></Link>
           </div>
         </td>
       </tr>
