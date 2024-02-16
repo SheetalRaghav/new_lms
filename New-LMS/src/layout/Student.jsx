@@ -6,8 +6,9 @@ import SidebarWithBurgerMenu from "../components/Student/StudentNavbar";
 const Student = () => {
   return (
     <>
-      <SidebarWithBurgerMenu />
-      <Outlet />
+    <div className="flex"><SidebarWithBurgerMenu />
+      <Outlet /></div>
+      
     </>
   );
 };

@@ -220,7 +220,7 @@ const SkillsInput = ({ data }) => {
   );
 };
 const ScheduleLectures = () => {
-  const { selectedCourse, setSelectedCourse } = useContext(DataContext)
+  const { setSelectedCourse } = useContext(DataContext)
   const [data, setData] = useState('');
   const [render, setRender] = useState(false)
   const { id, batch } = useParams();
