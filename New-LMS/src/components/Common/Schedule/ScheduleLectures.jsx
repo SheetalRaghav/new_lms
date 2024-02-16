@@ -3,16 +3,40 @@ import { DataContext } from '../../../context/DataContext';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 const Lecture = ({ data, lectureIndex, courseIndex }) => {
-  const {selectedCourse}=useContext(DataContext)
-  useEffect(()=>{
+  const{batch}=useParams()
+  const { selectedCourse } = useContext(DataContext)
+  const saveForm = useRef()
+  const [link, setLink] = useState('');
+  const [time, setTime] = useState('')
+useEffect(()=>{
+  if(selectedCourse?.courseDetails?.data[courseIndex].curriculum[lectureIndex].schedule[0]?.link===undefined){
+    setLink('')
+  }
+ else{
+  setLink(selectedCourse?.courseDetails?.data[courseIndex].curriculum[lectureIndex].schedule[0]?.link)
+ }
+},[selectedCourse])
 
-  },[selectedCourse])
-  useEffect(()=>{
-console.log(data)
-  },[])
-  const [link,setLink]=useState('');
-  const [time,setTime]=useState('')
-  const handleSubmit=()=>{
+useEffect(()=>{
+  if(selectedCourse?.courseDetails?.data[courseIndex].curriculum[lectureIndex].schedule[0]?.time===undefined){
+    setTime('')
+  }
+ else{
+  setTime(selectedCourse?.courseDetails?.data[courseIndex].curriculum[lectureIndex].schedule[0]?.time)
+ }
+},[selectedCourse])
+
+  const handleSubmit = (e) => {
+    const token=localStorage.getItem('token')
+    e.preventDefault();
+    const newCourseDetail = selectedCourse?.courseDetails
+    newCourseDetail.data[courseIndex].curriculum[lectureIndex].schedule = [{ time: time, link: link }]
+    axios.patch('http://localhost:5000/batch/edit-batch', {
+      identity: batch,
+      courseDetails: newCourseDetail
+    }, { headers: { "auth-token": token } }).then((value) => {
+     closeTheModal.current.click()
+    })
     // patch request with link and time
   }
   const closeTheModal = useRef();
@@ -39,16 +63,16 @@ console.log(data)
             }
           }}>
             <div className="modal-box">
-              <form className="flex flex-col gap-3 justify-start items-start" >
-                <input type="datetime-local" id="birthdaytime" name="birthdaytime" onChange={(e) => { console.log(e.target.value) }} />
-                <input required type="text" placeholder="Meeting Link" className="input input-bordered w-full " value={lectureIndex+" "+courseIndex}/>
-                <button className="hidden">ok</button>
+              <form className="flex flex-col gap-3 justify-start items-start" onSubmit={handleSubmit}>
+                <input type="datetime-local" id="birthdaytime" name="birthdaytime" onChange={(e) => { setTime(e.target.value) }} value={time} />
+                <input required type="text" placeholder="Meeting Link" className="input input-bordered w-full " value={link} onChange={(e) => { setLink(e.target.value) }} />
+                <button className="hidden" ref={saveForm}>ok</button>
               </form>
               <div className="modal-action">
                 <form method="dialog">
                   <button className="btn" ref={closeTheModal}>Close</button>
                 </form>
-                <button className="btn">Save</button>
+                <button className="btn" onClick={() => { saveForm.current.click() }}>Save</button>
               </div>
             </div>
           </dialog>
@@ -95,18 +119,18 @@ const SkillsInput = ({ data }) => {
   }, [userData])
   useEffect(() => {
     SetSelectedSkills(data)
-    // console.log(data)
+
   }, [])
-  const{batch}=useParams()
- useEffect(()=>{
-  const token=localStorage.getItem('token')
-axios.patch('http://localhost:5000/batch/edit-batch', {
-  identity: batch,
-  student:selectedSkills
-}, { headers: { "auth-token": token } }).then((value)=>{
- console.log(value)
-})
- },[selectedSkills])
+  const { batch } = useParams()
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    axios.patch('http://localhost:5000/batch/edit-batch', {
+      identity: batch,
+      student: selectedSkills
+    }, { headers: { "auth-token": token } }).then((value) => {
+
+    })
+  }, [selectedSkills])
   useEffect(() => {
     SetFilteredSkills(skills);
   }, [skills]);
@@ -138,7 +162,7 @@ axios.patch('http://localhost:5000/batch/edit-batch', {
           <div className="min-h-[5vh] w-full border border-gray-400 p-2 rounded-md flex flex-wrap justify-start items-center gap-2 relative">
             {selectedSkills?.map((skill, index) => {
               return (
-                <div className="bg-gray-100 px-2 py-1 rounded-lg flex justify-center items-center gap-4">
+                <div key={index} className="bg-gray-100 px-2 py-1 rounded-lg flex justify-center items-center gap-4">
                   <span
                     onClick={() => handleRemoveSkill(index)}
                     className="font-bold text-xs my-auto hover:cursor-pointer text-red-400"
@@ -154,7 +178,7 @@ axios.patch('http://localhost:5000/batch/edit-batch', {
               placeholder="Search & Add skills here"
               className="outline-none border border-gray-400 p-2 rounded-md w-1/2"
             />
- 
+
           </div>
         ) : (
           <input
@@ -179,9 +203,10 @@ axios.patch('http://localhost:5000/batch/edit-batch', {
                   />
                 );
               })
-            : filteredSkills?.map((skill) => {
+            : filteredSkills?.map((skill,index) => {
               return (
                 <SkillBtn
+                key={index}
                   selectedSkills={selectedSkills}
                   SetSelectedSkills={SetSelectedSkills}
                   skill={skill}
@@ -195,9 +220,9 @@ axios.patch('http://localhost:5000/batch/edit-batch', {
   );
 };
 const ScheduleLectures = () => {
-  const {selectedCourse,setSelectedCourse}=useContext(DataContext)
+  const { selectedCourse, setSelectedCourse } = useContext(DataContext)
   const [data, setData] = useState('');
-  const [render,setRender]=useState(false)
+  const [render, setRender] = useState(false)
   const { id, batch } = useParams();
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -206,12 +231,12 @@ const ScheduleLectures = () => {
       setRender(true)
     })
   }, [])
-  useEffect(()=>{
+  useEffect(() => {
     setSelectedCourse(data)
-  },[data])
+  }, [data])
   return (
     <>
-{render?<><div className="w-full px-10 flex flex-col gap-5">
+      {render ? <><div className="w-full px-10 flex flex-col gap-5">
         {/*  */}
         <SkillsInput data={data.student} />
 
@@ -222,15 +247,15 @@ const ScheduleLectures = () => {
             return <div className="space-y-2" key={index}>
               <h1 className="text-2xl font-bold leading-none mb-5">{elem.title}</h1>
               {elem.curriculum?.map((lecture, lectureIndex) => {
-                return <Lecture data={lecture} key={lectureIndex + 1} courseIndex={index} lectureIndex={lectureIndex}  />
+                return <Lecture data={lecture} key={lectureIndex + " " + index} courseIndex={index} lectureIndex={lectureIndex} />
               })}
             </div>
           })}
 
 
         </div>
-      </div></>:<></>}
-      
+      </div></> : <></>}
+
     </>
   )
 }

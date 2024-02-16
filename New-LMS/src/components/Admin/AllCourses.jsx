@@ -35,14 +35,12 @@ const TableRow = ({ title, category, status, instructor, id, description }) => {
     const token = localStorage.getItem('token')
     const handleDelete = () => {
         axios.delete(`http://localhost:5000/course/delete-course/${id}`, { headers: { "auth-token": token } }).then((value) => {
-            console.log(value)
             callCourse();
         })
     }
     const handleEdit = (e) => {
         e.preventDefault()
         axios.patch('http://localhost:5000/course/edit-course', { ...newData }, { headers: { "auth-token": token } }).then((value) => {
-            console.log(value)
             callCourse();
             closeTheModal.current.click()
         })

@@ -24,7 +24,6 @@ const AddBatch = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post('http://localhost:5000/batch/add-batch', { title: title, courseId: id }, { headers: { "auth-token": token } }).then((value) => {
-      console.log(value)
       setTitle('')
       setUpdate(value)
     })
@@ -41,48 +40,48 @@ const AddBatch = () => {
         </form>
 
 
-        <section class="my-5 max-w-full w-full mx-auto sm:px-5 px-1">
-          <div class="mt-6 md:flex md:items-center md:justify-between">
+        <section className="my-5 max-w-full w-full mx-auto sm:px-5 px-1">
+          <div className="mt-6 md:flex md:items-center md:justify-between">
           </div>
-          <div class="flex flex-col mt-6">
-            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                <div class="overflow-hidden  md:rounded-lg">
-                  <table class="min-w-full divide-y divide-gray-100 dark:divide-gray-400">
-                    <thead class="bg-gray-50 dark:bg-gray-800">
+          <div className="flex flex-col mt-6">
+            <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                <div className="overflow-hidden  md:rounded-lg">
+                  <table className="min-w-full divide-y divide-gray-100 dark:divide-gray-400">
+                    <thead className="bg-gray-50 dark:bg-gray-800">
                       <tr>
                         <th
                           scope="col"
-                          class="px-4 py-3.5 sm:text-base text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                          className="px-4 py-3.5 sm:text-base text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                           Name
                         </th>
 
                         <th
                           scope="col"
-                          class="px-4 py-3.5 sm:text-base text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-40"
+                          className="px-4 py-3.5 sm:text-base text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-40"
                         >
                           Students
                         </th>
                         <th
                           scope="col"
-                          class="px-4 py-3.5 sm:text-base text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-40 md:block hidden"
+                          className="px-4 py-3.5 sm:text-base text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-40 md:block hidden"
                         >
                           Date
                         </th>
                         <th
                           scope="col"
-                          class="px-4 py-3.5 sm:text-base text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                          className="px-4 py-3.5 sm:text-base text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                           Actions
                         </th>
                         <th
                           scope="col"
-                          class="px-4 py-3.5 sm:text-base text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                          className="px-4 py-3.5 sm:text-base text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                         </th>
                       </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                    <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                       {fetchedData?.map((elem, index) => {
                         return <TableRow
                         key={index}
@@ -90,6 +89,7 @@ const AddBatch = () => {
                           category={elem.title}
                           date={elem.date.slice(0,10)}
                           setUpdate={setUpdate}
+                          student={elem.student}
                         />
                       })}
                     </tbody>
@@ -105,7 +105,7 @@ const AddBatch = () => {
   )
 }
 
-const TableRow = ({ date, category, id, setUpdate }) => {
+const TableRow = ({ date, category, id, setUpdate, student }) => {
   const [newCategory, setNewCategory] = useState('')
   const openTheModal = useRef();
   const closeTheModal = useRef();
@@ -138,25 +138,25 @@ const TableRow = ({ date, category, id, setUpdate }) => {
       <tr>
 
 
-        <td class="px-4 py-4 sm:text-base text-sm whitespace-nowrap">
+        <td className="px-4 py-4 sm:text-base text-sm whitespace-nowrap">
           <div>
-            <h4 class="text-gray-700 dark:text-gray-200">{category}</h4>
+            <h4 className="text-gray-700 dark:text-gray-200">{category}</h4>
           </div>
         </td>
-        <td class="px-4 py-4 sm:text-base text-sm whitespace-nowrap">
-          <h4 class="text-gray-700 dark:text-gray-200">{10}</h4>
+        <td className="px-4 py-4 sm:text-base text-sm whitespace-nowrap">
+          <h4 className="text-gray-700 dark:text-gray-200">{student.length}</h4>
         </td>
-        <td class="px-4 py-4 sm:text-base text-sm whitespace-nowrap md:block hidden">
-          <h4 class="text-gray-700 dark:text-gray-200">{date}</h4>
+        <td className="px-4 py-4 sm:text-base text-sm whitespace-nowrap md:block hidden">
+          <h4 className="text-gray-700 dark:text-gray-200">{date}</h4>
         </td>
 
-        <td class="px-4 py-4 sm:text-base text-sm whitespace-nowrap">
-          <div className='flex gap-2 items-center '><div class="flex items-center cursor-pointer">
+        <td className="px-4 py-4 sm:text-base text-sm whitespace-nowrap">
+          <div className='flex gap-2 items-center '><div className="flex items-center cursor-pointer">
             <FaEdit color='#4e7ad9' size={18} onClick={() => { openTheModal.current.click(); setNewCategory(category) }} /></div>
-            <div class="flex items-center cursor-pointer">
+            <div className="flex items-center cursor-pointer">
               <MdDelete color='#d94e57' size={18} onClick={deleteItem} /></div></div>
         </td>
-        <td class="px-4 py-4 sm:text-base text-sm whitespace-nowrap">
+        <td className="px-4 py-4 sm:text-base text-sm whitespace-nowrap">
           <div className='flex gap-2 items-center '>
             <Link to={`${id}`}><BiRightArrowCircle size={25} className="cursor-pointer" /></Link>
           </div>

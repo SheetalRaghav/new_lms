@@ -88,7 +88,7 @@ const LectureList = () => {
                         </div>
                     </div>
                 </div>
-                <Link to="/schedule" class="flex gap-2 justify-center items-center max-w-[90px] px-2 py-1 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 mt-2 shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-rounded="rounded-md" data-primary="blue-600" data-primary-reset="{}">
+                <Link to="/schedule" className="flex gap-2 justify-center items-center max-w-[90px] px-2 py-1 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 mt-2 shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-rounded="rounded-md" data-primary="blue-600" data-primary-reset="{}">
                     View All
                 </Link>
             </section>
