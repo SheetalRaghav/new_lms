@@ -6,7 +6,8 @@ import SidebarWithBurgerMenu from "../components/Student/StudentNavbar";
 const Student = () => {
   return (
     <>
-    <div className="flex"><SidebarWithBurgerMenu />
+    <div className="flex w-full">
+    <SidebarWithBurgerMenu />
       <Outlet /></div>
       
     </>

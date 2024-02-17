@@ -6,7 +6,7 @@ import StudentDash from '../components/Student/StudentDash'
 const Dashboard = () => {
   const { authRole } = useContext(AuthContext)
   return (
-    <div>
+    <>
       {
         authRole === 'Admin' ? <>
           <AdminDash />
@@ -18,7 +18,7 @@ const Dashboard = () => {
           </>
         }</>
       }
-    </div>
+    </>
   )
 }
 
