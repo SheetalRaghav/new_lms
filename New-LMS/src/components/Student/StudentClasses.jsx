@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const StudentClasses = () => {
   return (
-    <div className='ml-[80px] w-full py-10 px-5'>
+    <div className='md:ml-[80px] w-full sm:py-10 py-5 sm:px-5 px-2'>
 {/*  */}
 <h1 className='text-2xl text-gray-700 font-semibold'>Upcoming classes: </h1>
 <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 p-4 md:p-6">

@@ -2,7 +2,7 @@ import React from 'react'
 
 const ContactUs = () => {
   return (
-    <div className='ml-[80px] py-10 px-5 w-full'>
+    <div className='md:ml-[80px] sm:py-10 py-5 sm:px-5 px-2 w-full'>
 <section class="bg-white dark:bg-slate-800" id="contact">
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
         <div class="mb-4">
@@ -17,12 +17,12 @@ const ContactUs = () => {
                 <p class="mx-auto mt-4 max-w-3xl text-xl text-gray-600 dark:text-slate-400">In hac habitasse platea
                     dictumst
                 </p>
-            </div>
+            </div> 
         </div>
         <div class="flex items-stretch justify-center">
             <div class="grid md:grid-cols-2">
                 <div class="h-full pr-6">
-                    <p class="mt-3 mb-12 text-lg text-gray-600 dark:text-slate-400">
+                    <p class="mb-12 text-lg text-gray-600 dark:text-slate-400">
                         Class aptent taciti sociosqu ad
                         litora torquent per conubia nostra, per inceptos himenaeos. Duis nec ipsum orci. Ut scelerisque
                         sagittis ante, ac tincidunt sem venenatis ut.
@@ -83,7 +83,7 @@ const ContactUs = () => {
                         </li>
                     </ul>
                 </div>
-                <div class="card h-fit max-w-6xl p-5 md:p-12" id="form">
+                <div class="card h-fit max-w-6xl px-5 md:px-12" id="form">
                     <h2 class="mb-4 text-2xl font-bold">Ready to Get Started?</h2>
                     <form id="contactForm">
                         <div class="mb-6">
